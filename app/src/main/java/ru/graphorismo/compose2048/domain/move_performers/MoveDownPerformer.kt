@@ -1,6 +1,4 @@
-package ru.graphorismo.compose2048.domain
-
-import androidx.core.util.rangeTo
+package ru.graphorismo.compose2048.domain.move_performers
 
 class MoveDownPerformer {
 

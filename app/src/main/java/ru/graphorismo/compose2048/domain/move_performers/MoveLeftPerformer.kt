@@ -1,4 +1,4 @@
-package ru.graphorismo.compose2048.domain
+package ru.graphorismo.compose2048.domain.move_performers
 
 class MoveLeftPerformer {
     fun execute(list: MutableList<MutableList<Int>>){

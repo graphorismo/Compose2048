@@ -2,7 +2,7 @@ package ru.graphorismo.compose2048
 
 import org.junit.Test
 import org.junit.Assert.*
-import ru.graphorismo.compose2048.domain.MoveLeftPerformer
+import ru.graphorismo.compose2048.domain.move_performers.MoveLeftPerformer
 
 class MoveLeftPerformerTest {
 
