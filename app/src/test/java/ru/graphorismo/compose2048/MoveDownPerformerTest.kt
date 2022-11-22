@@ -3,12 +3,11 @@ package ru.graphorismo.compose2048
 import org.junit.Assert
 import org.junit.Test
 import ru.graphorismo.compose2048.domain.MoveDownPerformer
-import ru.graphorismo.compose2048.domain.MoveLeftPerformer
 
 class MoveDownPerformerTest {
 
     // [ [0,0,0,0],     [ [0,0,0,0],
-    //   [0,0,0,2],  ->   [2,0,0,2],
+    //   [0,0,0,2],  ->   [0,0,0,2],
     //   [0,0,2,4],       [0,0,2,4],
     //   [0,2,4,8] ]      [0,2,4,8] ]
     @Test
