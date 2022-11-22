@@ -1,6 +1,8 @@
 package ru.graphorismo.compose2048.domain.move_performers
 
-class MoveDownPerformer {
+import javax.inject.Inject
+
+class MoveDownPerformer @Inject constructor() {
 
     fun execute(matrix: MutableList<MutableList<Int>>){
         val matrixWidth = matrix[0].size

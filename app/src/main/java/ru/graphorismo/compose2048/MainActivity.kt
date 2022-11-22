@@ -15,11 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
 import ru.graphorismo.compose2048.domain.UiEvent
 import ru.graphorismo.compose2048.ui.theme.Compose2048Theme
 import kotlin.math.absoluteValue
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     val viewModel : MainViewModel by viewModels()
@@ -101,7 +102,7 @@ class MainActivity : ComponentActivity() {
         if (event != null) {
             var oldX = 0f
             var oldY = 0f
-            val threshold = 100f
+            val threshold = 30f
             when(event.action){
                 MotionEvent.ACTION_DOWN ->{
                     oldX = event.x
@@ -110,13 +111,23 @@ class MainActivity : ComponentActivity() {
                 MotionEvent.ACTION_UP -> {
                     val xShift = event.x - oldX
                     val yShift = event.y - oldY
-                    if(xShift >= 0f && xShift.absoluteValue > threshold){
+                    if(xShift >= 0f
+                        && xShift.absoluteValue > threshold
+                        && xShift > yShift
+                    ){
                         viewModel.onEvent(UiEvent.SwipeRight)
-                    }else if(xShift < 0f && xShift.absoluteValue > threshold){
+                    }else if(xShift < 0f
+                        && xShift.absoluteValue > threshold
+                        && xShift > yShift
+                    ){
                         viewModel.onEvent(UiEvent.SwipeLeft)
-                    }else if (yShift >= 0f && yShift.absoluteValue > threshold){
+                    }else if (yShift >= 0f
+                        && yShift.absoluteValue > threshold
+                    ){
                         viewModel.onEvent(UiEvent.SwipeDown)
-                    }else if (yShift < 0f && yShift.absoluteValue > threshold){
+                    }else if (yShift < 0f
+                        && yShift.absoluteValue > threshold
+                    ){
                         viewModel.onEvent(UiEvent.SwipeUp)
                     }
                 }

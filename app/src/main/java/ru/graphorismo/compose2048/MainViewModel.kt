@@ -2,10 +2,16 @@ package ru.graphorismo.compose2048
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.graphorismo.compose2048.domain.UiEvent
 import ru.graphorismo.compose2048.domain.move_performers.MovePerformersFacade
+import javax.inject.Inject
 
-class MainViewModel(private var movePerformersFacade: MovePerformersFacade) : ViewModel() {
+@HiltViewModel
+class MainViewModel
+@Inject constructor(
+    private var movePerformersFacade: MovePerformersFacade) : ViewModel() {
 
     var gameField =
         mutableStateOf( GameFieldState(

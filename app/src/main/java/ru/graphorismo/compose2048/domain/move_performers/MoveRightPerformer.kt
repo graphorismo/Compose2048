@@ -1,6 +1,8 @@
 package ru.graphorismo.compose2048.domain.move_performers
 
-class MoveRightPerformer {
+import javax.inject.Inject
+
+class MoveRightPerformer @Inject constructor() {
     fun execute(list: MutableList<MutableList<Int>>){
         for(line in list){
             var somethingWasDone = true

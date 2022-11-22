@@ -1,6 +1,8 @@
 package ru.graphorismo.compose2048.domain.move_performers
 
-class MovePerformersFacade(
+import javax.inject.Inject
+
+class MovePerformersFacade @Inject constructor(
     private var moveUpPerformer: MoveUpPerformer,
     private var moveDownPerformer: MoveDownPerformer,
     private var moveLeftPerformer: MoveLeftPerformer,
