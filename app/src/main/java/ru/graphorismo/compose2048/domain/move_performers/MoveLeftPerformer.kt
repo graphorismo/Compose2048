@@ -6,7 +6,7 @@ class MoveLeftPerformer {
             var somethingWasDone = true
             while (somethingWasDone){
                 somethingWasDone = false
-                for (i in 1..(line.size-1)){
+                for (i in 1 until line.size){
                     if (line[i-1]==0 && line[i]!=0){
                         line[i-1] = line[i]
                         line[i] = 0

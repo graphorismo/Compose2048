@@ -3,8 +3,8 @@ package ru.graphorismo.compose2048.domain.move_performers
 class MoveDownPerformer {
 
     fun execute(matrix: MutableList<MutableList<Int>>){
-        var matrixWidth = matrix[0].size
-        var matrixHeight = matrix.size
+        val matrixWidth = matrix[0].size
+        val matrixHeight = matrix.size
         for (i in 0 until matrixWidth){
             var somethingWasDone = true
             while (somethingWasDone){
