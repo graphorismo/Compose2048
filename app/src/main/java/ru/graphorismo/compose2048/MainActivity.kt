@@ -1,7 +1,7 @@
 package ru.graphorismo.compose2048
 
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.graphorismo.compose2048.domain.UiEvent
 import ru.graphorismo.compose2048.ui.theme.Compose2048Theme
+import kotlin.math.absoluteValue
 
 
 class MainActivity : ComponentActivity() {
@@ -94,4 +96,34 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            var oldX = 0f
+            var oldY = 0f
+            val threshold = 100f
+            when(event.action){
+                MotionEvent.ACTION_DOWN ->{
+                    oldX = event.x
+                    oldY = event.y
+                }
+                MotionEvent.ACTION_UP -> {
+                    val xShift = event.x - oldX
+                    val yShift = event.y - oldY
+                    if(xShift >= 0f && xShift.absoluteValue > threshold){
+                        viewModel.onEvent(UiEvent.SwipeRight)
+                    }else if(xShift < 0f && xShift.absoluteValue > threshold){
+                        viewModel.onEvent(UiEvent.SwipeLeft)
+                    }else if (yShift >= 0f && yShift.absoluteValue > threshold){
+                        viewModel.onEvent(UiEvent.SwipeDown)
+                    }else if (yShift < 0f && yShift.absoluteValue > threshold){
+                        viewModel.onEvent(UiEvent.SwipeUp)
+                    }
+                }
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+
 }
