@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +40,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Compose2048Theme {
+                var fieldState = remember {
+                    viewModel.gameField.value
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -61,13 +65,13 @@ class MainActivity : ComponentActivity() {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceAround
                         ) {
-                            for (i in 1..4){
+                            for (i in 0..3){
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceAround,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    for (j in 1..4){
+                                    for (j in 0..3){
                                         Card(
                                             modifier = Modifier
                                                 .height(gameCellSize.dp)
@@ -82,7 +86,8 @@ class MainActivity : ComponentActivity() {
                                                 horizontalAlignment = Alignment.CenterHorizontally,
                                                 verticalArrangement = Arrangement.SpaceAround
                                             ) {
-                                                Text(text = "0", fontSize = 26.sp)
+                                                viewModel.gameField.value?.state?.get(i)?.get(j)?.toString()
+                                                    ?.let { Text(text = it, fontSize = 26.sp) }
                                             }
                                         }
                                     }
@@ -102,7 +107,7 @@ class MainActivity : ComponentActivity() {
         if (event != null) {
             var oldX = 0f
             var oldY = 0f
-            val threshold = 30f
+            val threshold = 300f
             when(event.action){
                 MotionEvent.ACTION_DOWN ->{
                     oldX = event.x
@@ -113,12 +118,12 @@ class MainActivity : ComponentActivity() {
                     val yShift = event.y - oldY
                     if(xShift >= 0f
                         && xShift.absoluteValue > threshold
-                        && xShift > yShift
+                        && xShift.absoluteValue > yShift.absoluteValue
                     ){
                         viewModel.onEvent(UiEvent.SwipeRight)
                     }else if(xShift < 0f
                         && xShift.absoluteValue > threshold
-                        && xShift > yShift
+                        && xShift.absoluteValue > yShift.absoluteValue
                     ){
                         viewModel.onEvent(UiEvent.SwipeLeft)
                     }else if (yShift >= 0f
