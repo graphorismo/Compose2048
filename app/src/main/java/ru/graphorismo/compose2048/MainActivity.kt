@@ -25,6 +25,8 @@ import kotlin.math.absoluteValue
 class MainActivity : ComponentActivity() {
 
     val viewModel : MainViewModel by viewModels()
+    var oldX = 0f
+    var oldY = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,11 +105,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
-            var oldX = 0f
-            var oldY = 0f
-            val threshold = 300f
+            val threshold = 150f
             when(event.action){
                 MotionEvent.ACTION_DOWN ->{
                     oldX = event.x
