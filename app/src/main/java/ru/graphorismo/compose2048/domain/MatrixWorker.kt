@@ -17,5 +17,17 @@ class MatrixWorker @Inject constructor() {
             throw RuntimeException("MovePerformersFacade cant handle not a square matrices")
     }
 
+    fun countZeros(): Int{
+        var zerosInMatrixCount = 0
+        for (line in matrix){
+            for (num in line){
+                if ( num  == 0 ){
+                    zerosInMatrixCount += 1
+                }
+            }
+        }
+        return zerosInMatrixCount
+    }
+
 
 }

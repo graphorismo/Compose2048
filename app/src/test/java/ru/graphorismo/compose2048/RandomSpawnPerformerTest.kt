@@ -19,7 +19,7 @@ class RandomSpawnPerformerTest() {
         randomSpawnPerformer.numberOfNumsToSpawn = 2
         randomSpawnPerformer.matrixWorker.matrix = matrix
         randomSpawnPerformer.execute()
-        val numberOfZeros = countZerosInMatrix(matrix)
+        val numberOfZeros = randomSpawnPerformer.matrixWorker.countZeros()
         assertTrue(numberOfZeros == 14)
     }
 
@@ -31,17 +31,4 @@ class RandomSpawnPerformerTest() {
         }
     }
 
-
-
-    private fun countZerosInMatrix(matrix: MutableList<MutableList<Int>>) : Int{
-        var zerosInMatrixCount = 0
-        for (line in matrix){
-            for (num in line){
-                if ( num  == 0 ){
-                    zerosInMatrixCount += 1
-                }
-            }
-        }
-        return zerosInMatrixCount
-    }
 }

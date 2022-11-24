@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.graphorismo.compose2048.domain.EndGameChecker
+import ru.graphorismo.compose2048.domain.GameFieldReseter
 import ru.graphorismo.compose2048.domain.RandomSpawnPerformer
 import ru.graphorismo.compose2048.domain.UiEvent
 import ru.graphorismo.compose2048.domain.move_performers.MovePerformersFacade
@@ -14,7 +16,9 @@ import javax.inject.Inject
 class MainViewModel
 @Inject constructor(
     private var movePerformersFacade: MovePerformersFacade,
-    private var randomSpawnPerformer: RandomSpawnPerformer
+    private var randomSpawnPerformer: RandomSpawnPerformer,
+    private var endGameChecker: EndGameChecker,
+    private var gameFieldReseter: GameFieldReseter
 ) : ViewModel() {
 
     var gameField : MutableState<GameFieldState?> =
@@ -55,6 +59,12 @@ class MainViewModel
             randomSpawnPerformer.numberOfNumsToSpawn = 2
             randomSpawnPerformer.matrixWorker.matrix = handledGameState.state
             randomSpawnPerformer.execute()
+            endGameChecker.matrixWorker.matrix = handledGameState.state
+            endGameChecker.execute()
+            if (endGameChecker.isEndGame){
+                gameFieldReseter.matrixWorker.matrix = handledGameState.state
+                gameFieldReseter.execute()
+            }
         }
         gameField.value = null
         gameField.value = handledGameState
