@@ -1,8 +1,9 @@
 package ru.graphorismo.compose2048.domain
 
+import javax.inject.Inject
 import kotlin.random.Random
 
-class RandomSpawnPerformer {
+class RandomSpawnPerformer @Inject constructor() {
 
     var matrix : MutableList<MutableList<Int>>? = null
         set(value) {
