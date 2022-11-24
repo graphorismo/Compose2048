@@ -3,14 +3,8 @@ package ru.graphorismo.compose2048.domain
 import javax.inject.Inject
 import kotlin.random.Random
 
-class RandomSpawnPerformer @Inject constructor() {
+class RandomSpawnPerformer @Inject constructor(var matrixWorker: MatrixWorker) {
 
-    var matrix : MutableList<MutableList<Int>>? = null
-        set(value) {
-            field = value
-            throwIfMatrixIsNull()
-            throwIfMatrixIsNotMatrix()
-        }
 
     private var numbersInMatrix : MutableList<Int>? = null
     private var zerosInMatrixCount: Int = 0
@@ -31,7 +25,7 @@ class RandomSpawnPerformer @Inject constructor() {
 
     private fun rememberAllNumbersFromMatrixAndNumberTwoButNotZero(){
         numbersInMatrix = mutableListOf<Int>(2)
-        for (line in matrix!!){
+        for (line in matrixWorker.matrix){
             for (num in line){
                 if ( (num in numbersInMatrix!!) == false ){
                     numbersInMatrix!!.add(num)
@@ -43,7 +37,7 @@ class RandomSpawnPerformer @Inject constructor() {
 
     private fun countZerosInMatrix(){
         zerosInMatrixCount = 0
-        for (line in matrix!!){
+        for (line in matrixWorker.matrix){
             for (num in line){
                 if ( num  == 0 ){
                     zerosInMatrixCount += 1
@@ -55,14 +49,12 @@ class RandomSpawnPerformer @Inject constructor() {
     private fun spawnOneRandomNumberFromMatrixOnZeroOfMatrix(){
         val randomNumber = numbersInMatrix!!.random()
         val spawnChance = 1f / zerosInMatrixCount
-        var wasSpaned = false
-        while(wasSpaned != true){
-            topLoop1@for (j in 0 until matrix!!.size){
-                for (i in 0 until matrix!![j].size){
+        topLoop1@for(k in 0..9){
+            for (j in 0 until matrixWorker.matrix.size){
+                for (i in 0 until matrixWorker.matrix.size){
                     var roll: Float = Random.nextDouble(0.0, 1.0).toFloat()
                     if ( roll < spawnChance ){
-                        matrix!![j][i] = randomNumber
-                        wasSpaned = true
+                        matrixWorker.matrix[j][i] = randomNumber
                         break@topLoop1
                     }
                 }
@@ -70,18 +62,7 @@ class RandomSpawnPerformer @Inject constructor() {
         }
     }
 
-    private fun throwIfMatrixIsNotMatrix(){
-        val linesLengths = matrix!!.map { it.size }
-        val matrixWidth = linesLengths[0]
-        if(linesLengths.any{it != matrixWidth } || matrix!!.size!=matrixWidth)
-            throw RuntimeException("MovePerformersFacade cant handle not a square matrices")
-    }
 
-    private fun throwIfMatrixIsNull(){
-        if(matrix == null){
-            throw NullPointerException("RandomSpawnPerformer cant handle a null value")
-        }
-    }
 
     private fun throwIfNumberOfNumsToSpawnIsLessThenZero(){
         if (numberOfNumsToSpawn < 0){

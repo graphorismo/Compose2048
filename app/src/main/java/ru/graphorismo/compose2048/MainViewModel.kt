@@ -29,19 +29,22 @@ class MainViewModel
 
     fun onEvent(uiEvent: UiEvent){
         when(uiEvent){
-            is UiEvent.SwipeUp ->
+            is UiEvent.SwipeUp ->{
                 handleEventWithLogic {
                     movePerformersFacade.performMoveUp(it) }
-
-            is UiEvent.SwipeDown ->
+            }
+            is UiEvent.SwipeDown ->{
                 handleEventWithLogic {
                     movePerformersFacade.performMoveDown(it) }
-            is UiEvent.SwipeLeft ->
+            }
+            is UiEvent.SwipeLeft ->{
                 handleEventWithLogic {
                     movePerformersFacade.performMoveLeft(it) }
-            is UiEvent.SwipeRight ->
+            }
+            is UiEvent.SwipeRight ->{
                 handleEventWithLogic {
                     movePerformersFacade.performMoveRight(it) }
+            }
         }
     }
 
@@ -50,7 +53,7 @@ class MainViewModel
         if (handledGameState != null) {
             logic(handledGameState.state)
             randomSpawnPerformer.numberOfNumsToSpawn = 2
-            randomSpawnPerformer.matrix = handledGameState.state
+            randomSpawnPerformer.matrixWorker.matrix = handledGameState.state
             randomSpawnPerformer.execute()
         }
         gameField.value = null
