@@ -26,38 +26,28 @@ class MainViewModel
 
     fun onEvent(uiEvent: UiEvent){
         when(uiEvent){
-            is UiEvent.SwipeUp -> {
-                val handledGameState = gameField.value?.copy()
-                if (handledGameState != null) {
-                    movePerformersFacade.performMoveUp(handledGameState.state)
-                }
-                gameField.value = null
-                gameField.value = handledGameState
-            }
-            is UiEvent.SwipeDown -> {
-                val handledGameState = gameField.value?.copy()
-                if (handledGameState != null) {
-                    movePerformersFacade.performMoveDown(handledGameState.state)
-                }
-                gameField.value = null
-                gameField.value = handledGameState
-            }
-            is UiEvent.SwipeLeft -> {
-                val handledGameState = gameField.value?.copy()
-                if (handledGameState != null) {
-                    movePerformersFacade.performMoveLeft(handledGameState.state)
-                }
-                gameField.value = null
-                gameField.value = handledGameState
-            }
-            is UiEvent.SwipeRight -> {
-                val handledGameState = gameField.value?.copy()
-                if (handledGameState != null) {
-                    movePerformersFacade.performMoveRight(handledGameState.state)
-                }
-                gameField.value = null
-                gameField.value = handledGameState
-            }
+            is UiEvent.SwipeUp ->
+                handleEventWithLogic {
+                    movePerformersFacade.performMoveUp(it) }
+
+            is UiEvent.SwipeDown ->
+                handleEventWithLogic {
+                    movePerformersFacade.performMoveDown(it) }
+            is UiEvent.SwipeLeft ->
+                handleEventWithLogic {
+                    movePerformersFacade.performMoveLeft(it) }
+            is UiEvent.SwipeRight ->
+                handleEventWithLogic {
+                    movePerformersFacade.performMoveRight(it) }
         }
+    }
+
+    private fun handleEventWithLogic(logic: (MutableList<MutableList<Int>>) -> Unit){
+        val handledGameState = gameField.value?.copy()
+        if (handledGameState != null) {
+            logic(handledGameState.state)
+        }
+        gameField.value = null
+        gameField.value = handledGameState
     }
 }
